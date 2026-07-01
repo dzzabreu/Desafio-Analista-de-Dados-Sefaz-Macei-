@@ -1,0 +1,43 @@
+import pandas as pd
+from pathlib import Path
+
+def consolidar_dados():
+    pd.set_option('display.float_format', lambda x: '%.2f' % x)
+    
+    pasta_origem = Path("dados_extraidos")
+    arquivos_csv = list(pasta_origem.glob("*.csv"))
+    
+    if not arquivos_csv:
+        print("Nenhum arquivo CSV encontrado em 'dados_extraidos'. Rode o 'extract_data.py' primeiro.")
+        return
+
+    lista_dataframes = []
+    print(f"Encontrados {len(arquivos_csv)} arquivos para consolidação. Lendo dados...")
+
+    for caminho_csv in arquivos_csv:
+        ano = caminho_csv.stem.split("_")[1]
+        
+        print(f"Lendo e tratando o ano {ano}...")
+        
+        df_ano = pd.read_csv(
+            caminho_csv,
+            sep=";",           
+            encoding="latin-1", 
+            skiprows=3,        
+            decimal=","        
+        )
+        
+        df_ano["ano"] = int(ano)
+        
+        lista_dataframes.append(df_ano)
+
+    print("Juntando todos os anos em um único DataFrame...")
+    df_consolidado = pd.concat(lista_dataframes, ignore_index=True)
+    
+    print(f"Sucesso! Dados consolidados com total de {df_consolidado.shape[0]} linhas.")
+    print(f"Colunas identificadas: {list(df_consolidado.columns)}")
+    
+    return df_consolidado
+
+if __name__ == "__main__":
+    consolidar_dados()
