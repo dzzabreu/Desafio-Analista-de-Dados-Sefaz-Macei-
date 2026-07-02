@@ -1,6 +1,23 @@
 import pandas as pd
 from pathlib import Path
 
+def distingue_conta(data_frame):
+    data_frame["Função"] = None
+    data_frame["Subfunção"] = None
+
+    ultima_funcao_encontrada = None
+
+    for index, linha in data_frame.iterrows():
+        texto_conta = str(linha["Conta"])
+        
+        if texto_conta[2] == " ":
+            ultima_funcao_encontrada = texto_conta
+            data_frame.at[index, "Função"] = texto_conta
+            
+        elif texto_conta[2] == "." or texto_conta.startswith("FU"):
+            data_frame.at[index, "Função"] = ultima_funcao_encontrada
+            data_frame.at[index, "Subfunção"] = texto_conta
+
 def consolidar_dados():
     pd.set_option('display.float_format', lambda x: '%.2f' % x)
     
@@ -27,7 +44,9 @@ def consolidar_dados():
             decimal=","        
         )
         
-        df_ano["ano"] = int(ano)
+        df_ano["Ano"] = int(ano)
+        
+        distingue_conta(df_ano)
         
         lista_dataframes.append(df_ano)
 
