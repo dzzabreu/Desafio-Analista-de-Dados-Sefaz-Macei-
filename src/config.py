@@ -11,3 +11,7 @@ PASTA_PROCESSED = RAIZ_PROJETO / "data" / "processed"
 PASTA_COMPACTOS = PASTA_RAW / "dados_compactos"
 PASTA_EXTRAIDOS = PASTA_RAW / "dados_extraidos"
 ARQUIVO_PARQUET = PASTA_PROCESSED / "finbra_consolidado.parquet"
+
+# Caminho para a camada Gold (onde ficará o banco de dados)
+PASTA_GOLD = RAIZ_PROJETO / "data" / "gold"
+BANCO_DUCKDB = PASTA_GOLD / "finbra_analytics.duckdb"
