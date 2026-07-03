@@ -1,5 +1,6 @@
 import pandas as pd
 from pathlib import Path
+from src.config import PASTA_EXTRAIDOS, ARQUIVO_PARQUET
 
 def distingue_conta(data_frame):
     data_frame["Função"] = None
@@ -21,7 +22,7 @@ def distingue_conta(data_frame):
 def consolidar_dados():
     pd.set_option('display.float_format', lambda x: '%.2f' % x)
     
-    pasta_origem = Path("dados_extraidos")
+    pasta_origem = PASTA_EXTRAIDOS
     arquivos_csv = list(pasta_origem.glob("*.csv"))
     
     if not arquivos_csv:

@@ -1,9 +1,10 @@
 import zipfile
 from pathlib import Path
+from src.config import PASTA_COMPACTOS, PASTA_EXTRAIDOS
 
 def descompactar_dados():
-    pasta_origem = Path("dados_compactos")
-    pasta_destino = Path("dados_extraidos")
+    pasta_origem = PASTA_COMPACTOS
+    pasta_destino = PASTA_EXTRAIDOS
 
     pasta_destino.mkdir(exist_ok=True)
 
@@ -26,7 +27,7 @@ def descompactar_dados():
                     nome_final_csv = pasta_destino / f"finbra_{ano}.csv"
                     
                     nome_final_csv.write_bytes(conteudo)
-                    print(f"Extraído: {nome_final_csv}")
+                    print(f"Extraído: {nome_final_csv.name}")
 
 if __name__ == "__main__":
     descompactar_dados()
