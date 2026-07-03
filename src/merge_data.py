@@ -2,6 +2,22 @@ import pandas as pd
 from pathlib import Path
 from src.config import PASTA_EXTRAIDOS, ARQUIVO_PARQUET
 
+def consolida_parquet():
+    print("\nConvertendo e salvando a base consolidada em formato Parquet...")
+    
+    ARQUIVO_PARQUET.parent.mkdir(parents=True, exist_ok=True)
+    
+    df_final = consolidar_dados()
+    
+    df_final.to_parquet(
+        ARQUIVO_PARQUET, 
+        engine='pyarrow', 
+        compression='snappy',
+        index=False 
+    )
+    
+    print(f"\nSucesso! Base performática gerada em: {ARQUIVO_PARQUET}")
+
 def distingue_conta(data_frame):
     data_frame["Função"] = None
     data_frame["Subfunção"] = None
@@ -59,5 +75,6 @@ def consolidar_dados():
     
     return df_consolidado
 
+
 if __name__ == "__main__":
-    consolidar_dados()
+    consolida_parquet()

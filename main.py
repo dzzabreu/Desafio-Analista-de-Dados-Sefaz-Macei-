@@ -1,6 +1,6 @@
 import sys
 from src.extract_data import descompactar_dados
-from src.merge_data import consolidar_dados
+from src.merge_data import consolida_parquet
 
 def main():
     print("==================================================")
@@ -12,7 +12,7 @@ def main():
         descompactar_dados()
         
         # Passo 2 e 3: Consolidação dos dados em formato performático (Parquet)
-        consolidar_dados()
+        consolida_parquet()
         
         print("\n==================================================")
         print("    Pipeline executado com sucesso absoluto!")
