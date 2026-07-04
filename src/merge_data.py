@@ -35,6 +35,26 @@ def distingue_conta(data_frame):
             data_frame.at[index, "Função"] = ultima_funcao_encontrada
             data_frame.at[index, "Subfunção"] = texto_conta
 
+def mapeia_regiao(uf):    
+    mapeamento_regioes = {
+        'AM': 'Norte', 'PA': 'Norte', 'RO': 'Norte', 'RR': 'Norte', 'AC': 'Norte', 'AP': 'Norte', 'TO': 'Norte',
+        'MA': 'Nordeste', 'PI': 'Nordeste', 'CE': 'Nordeste', 'RN': 'Nordeste', 'PB': 'Nordeste', 'PE': 'Nordeste', 'AL': 'Nordeste', 'SE': 'Nordeste', 'BA': 'Nordeste',
+        'MT': 'Centro-Oeste', 'MS': 'Centro-Oeste', 'GO': 'Centro-Oeste', 'DF': 'Centro-Oeste',
+        'SP': 'Sudeste', 'RJ': 'Sudeste', 'MG': 'Sudeste', 'ES': 'Sudeste',
+        'PR': 'Sul', 'SC': 'Sul', 'RS': 'Sul'
+    }
+    
+    return mapeamento_regioes.get(uf) # retorna a região
+
+def cria_coluna_regiao(data_frame):
+    
+    data_frame["Região"] = None
+    
+    for index, linha in data_frame.iterrows():
+        sigla_uf = linha["UF"]
+        regiao_encontrada = mapeia_regiao(sigla_uf)
+        data_frame.at[index, "Região"] = regiao_encontrada
+
 def consolidar_dados():
     pd.set_option('display.float_format', lambda x: '%.2f' % x)
     
@@ -64,6 +84,8 @@ def consolidar_dados():
         df_ano["Ano"] = int(ano)
         
         distingue_conta(df_ano)
+        
+        cria_coluna_regiao(df_ano)
         
         lista_dataframes.append(df_ano)
 
